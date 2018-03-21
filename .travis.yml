@@ -1,0 +1,17 @@
+sudo: required
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+language: ruby
+
+before_install:
+  - docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+
+script:
+  - docker build -t $DOCKER_HUB_USERNAME/nodepy:$PROJECT_TAG .
+  - docker push $DOCKER_HUB_USERNAME/nodepy:$PROJECT_TAG
