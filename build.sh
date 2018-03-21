@@ -35,25 +35,40 @@ title() {
   echo "${cyan}${bold}"$(nchars "=" $NUM_CHARS) $1 $(nchars "=" $NUM_CHARS)"${reset}"
 }
 
+# Check there is something to build
+if [ -z "${1}" ];
+  then
+  echo "Build failed - select a build:"
+  echo "   ./build.sh ${bold}${cyan}base${reset}"
+  echo "   ./build.sh ${bold}${cyan}dev${reset}"
+  exit 1
+fi
+
 # Build base image
-title "Building Base Image"
-cp base/Dockerfile .
-docker build -t $DOCKER_HUB_USERNAME/$PROJECT_NAME .
-check_status "Building Base Image"
-rm Dockerfile
-title "Pushing Base Image"
-docker push $DOCKER_HUB_USERNAME/nodepy
+if [ $1 = "base" ];
+  then
+  title "Building Base Image"
+  cp base/Dockerfile .
+  docker build -t $DOCKER_HUB_USERNAME/$PROJECT_NAME .
+  check_status "Building Base Image"
+  rm Dockerfile
+  title "Pushing Base Image"
+  docker push $DOCKER_HUB_USERNAME/nodepy
+  exit 0
+fi
 
 # Build dev image
-title "Building Dev Image"
-cp dev/Dockerfile .
-docker build -t $DOCKER_HUB_USERNAME/$PROJECT_NAME:dev .
-check_status "Building Dev Image"
-rm Dockerfile
-title "Pushing Dev Image"
-docker push $DOCKER_HUB_USERNAME/nodepy:dev
-check_status "Building Dev Image"
+if [ $1 = dev ];
+  then
+  title "Building Dev Image"
+  cp dev/Dockerfile .
+  docker build -t $DOCKER_HUB_USERNAME/$PROJECT_NAME:dev .
+  check_status "Building Dev Image"
+  rm Dockerfile
+  title "Pushing Dev Image"
+  docker push $DOCKER_HUB_USERNAME/nodepy:dev
+  check_status "Building Dev Image"
+  exit 0
+fi
 
-
-# title "Push docker image"
-# docker push
+echo "Image ${bold}${cyan}$1${reset} doesn't exist"
