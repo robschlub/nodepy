@@ -9,6 +9,10 @@ bold=`tput bold`
 reset=`tput sgr0`
 
 LINE_LEN=80
+
+###############################################################################
+# HELPER FUNCTIONS
+
 # Check current build status and exit if in failure state
 check_status() {
   if [ $? != 0 ];
@@ -19,6 +23,7 @@ check_status() {
   echo "${bold}${cyan}""$(nchars '=' $LINE_LEN)"
 }
 
+# Output repeated character where $1 is char, and $2 is count
 nchars() {
   OUTPUT=''
   for i in $(seq 0 $2)
@@ -28,12 +33,14 @@ nchars() {
   echo $OUTPUT
 }
 
+# Show title surrounded by equal signs
 title() {
   TOTAL_LEN=$LINE_LEN
   STR_LEN=${#1}
   NUM_CHARS=$((($TOTAL_LEN-$STR_LEN-2)/2))
   echo "${cyan}${bold}"$(nchars "=" $NUM_CHARS) $1 $(nchars "=" $NUM_CHARS)"${reset}"
 }
+###############################################################################
 
 # Check there is something to build
 if [ -z "${1}" ];
@@ -71,4 +78,6 @@ if [ $1 = dev ];
   exit 0
 fi
 
+# If got to here, the image wasn't dev or base and error should be thrown
 echo "Image ${bold}${cyan}$1${reset} doesn't exist"
+exit 1
