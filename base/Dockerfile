@@ -1,4 +1,4 @@
-FROM node:9.8.0-slim
+FROM node:9.11.1-slim
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
-ENV PYTHON_VERSION 3.6.4
+ENV PYTHON_VERSION 3.6.5
 
 RUN set -ex \
 	&& buildDeps=" \
@@ -87,7 +87,7 @@ RUN cd /usr/local/bin \
 	&& ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 9.0.2
+ENV PYTHON_PIP_VERSION 10.0.1
 
 RUN set -ex; \
 	\
