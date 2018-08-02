@@ -1,4 +1,4 @@
-FROM node:9.11.1-slim
+FROM node:10.8.0-slim
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
@@ -113,5 +113,7 @@ RUN set -ex; \
 			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
 		\) -exec rm -rf '{}' +; \
 	rm -f get-pip.py
+
+RUN npm install -global npm@6.3.0
 
 CMD ["bash"]
