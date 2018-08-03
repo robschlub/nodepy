@@ -59,22 +59,34 @@ if [ $1 = "base" ];
   docker build -t $DOCKER_HUB_USERNAME/$PROJECT_NAME .
   check_status "Building Base Image"
   rm Dockerfile
-  title "Pushing Base Image"
-  docker push $DOCKER_HUB_USERNAME/nodepy
+  if [ $2 ];
+  then
+    if [ $2 = "deploy" ];
+    then
+      title "Pushing Base Image"
+      docker push $DOCKER_HUB_USERNAME/nodepy
+    fi
+  fi
   exit 0
 fi
 
 # Build dev image
 if [ $1 = dev ];
-  then
+then
   title "Building Dev Image"
   cp dev/Dockerfile .
   docker build -t $DOCKER_HUB_USERNAME/$PROJECT_NAME:dev .
   check_status "Building Dev Image"
   rm Dockerfile
-  title "Pushing Dev Image"
-  docker push $DOCKER_HUB_USERNAME/nodepy:dev
-  check_status "Building Dev Image"
+  if [ $2 ];
+  then
+    if [ $2 = "deploy" ];
+    then
+      title "Pushing Dev Image"
+      docker push $DOCKER_HUB_USERNAME/nodepy:dev
+    fi
+  fi
+  check_status "Done"
   exit 0
 fi
 
