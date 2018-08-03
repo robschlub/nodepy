@@ -31,6 +31,10 @@ export DOCKER_HUB_USERNAME=[enter_user_name_here]
 ./build.sh base deploy
 ./build.sh dev deploy
 
+Or
+
+Pull request branch into master, Travis will deploy
+
 
 # Updating:
 
