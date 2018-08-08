@@ -13,5 +13,5 @@ before_install:
   - docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 
 script:
-  - ./build.sh base
-  - ./build.sh dev
+  - ./build.sh base deploy
+  - ./build.sh dev deploy
